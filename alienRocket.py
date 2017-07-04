@@ -11,70 +11,10 @@ import socket
 import webbrowser as web
 
 class Exp:
+
 	def __init__(self):
-		self.optionList = {	'1':  {	'name' : 'subjCode', 
-									'prompt' : 'Subject Code: ', 
-									'options': 'any', 
-									'default':'arocket_101',
-									'type' : str}, 
-							'2' : {	'name' : 'gender', 
-									'prompt' : 'Subject Gender m/f: ', 
-									'options' : ("m","f"),
-									'default':'',
-									'type' : str},
-							'3' : {	'name' : 'responseDevice', 
-									'prompt' : 'Response device: keyboard/gamepad: ', 
-									'options' : ("keyboard","gamepad"),
-									'default':'gamepad',
-									'type' : str},
-							'4' : {	'name' : 'mapping', 
-									'prompt' : 'Label mapping G1/G2/A1/A2: ', 
-									'options' : ('G1','G2','A1','A2'), 
-									'default':'',
-									'type' : str},
-							'5' : {	'name' : 'locationMapping', 
-									'prompt' : 'Location mapping GL/GR/AL/AR/R/V: ', 
-									'options' : ('GL','GR','AL','AR','R','V'), 
-									'default':'',
-									'type' : str},
-							'6' : {	'name' : 'categoryStructure', 
-									'prompt' : 'Category Structure - 5-4 / CC: ', 
-									'options' : ('5-4','CC'), 
-									'default':'CC',
-									'type' : str},
-							'7' : {	'name' : 'order', 
-									'prompt' : 'First or second? 1/2: ', 
-									'options' : ("1","2"), 
-									'default':'1',
-									'type' : str},
-							'8' : {	'name' : 'seed', 
-									'prompt' : 'Enter seed: ', 
-									'options' : 'any', 
-									'default':100,
-									'type' : int},
-							'9' : {	'name' : 'expInitials', 
-									'prompt' : 'Experiment Initials: ', 
-									'options' : 'any', 
-									'default' : '', 
-									'type' : str}
-								}
-			
-		optionsReceived=False
-		fileOpened=False
-		while not optionsReceived or not fileOpened:
-			[optionsReceived,self.subjVariables] = enterSubjInfo('same-gekTalp-noDelay-question-HTEST',self.optionList) #alienRockets_noDelay_AB
-			if not optionsReceived:
-				popupError(self.subjVariables)
-			try:
-				if  os.path.isfile(self.subjVariables['subjCode']+'_test.txt'):
-					fileOpened=False
-					popupError('Error: That subject code already exists')
-				else:
-					self.outputFile = open(self.subjVariables['subjCode']+'_test.txt','w')
-					fileOpened=True
-			except:
-				pass
-			print 'options received: ',optionsReceived,self.subjVariables
+
+		self.readOptions()
 			
 		if self.subjVariables['locationMapping'] != 'V':
 			if generateTrials(self.subjVariables['subjCode'],self.subjVariables['seed'],self.subjVariables['mapping'],self.subjVariables['locationMapping'],self.subjVariables['categoryStructure']):
@@ -178,6 +118,73 @@ class Exp:
 		self.practiceTrials = "The next part is practice"
 		self.realTrials = "Now for the real trials."
 
+
+	def readOptions(self):
+		optionList = {	'1':  {	'name' : 'subjCode', 
+									'prompt' : 'Subject Code: ', 
+									'options': 'any', 
+									'default':'arocket_101',
+									'type' : str}, 
+							'2' : {	'name' : 'gender', 
+									'prompt' : 'Subject Gender m/f: ', 
+									'options' : ("m","f"),
+									'default':'',
+									'type' : str},
+							'3' : {	'name' : 'responseDevice', 
+									'prompt' : 'Response device: keyboard/gamepad: ', 
+									'options' : ("keyboard","gamepad"),
+									'default':'gamepad',
+									'type' : str},
+							'4' : {	'name' : 'mapping', 
+									'prompt' : 'Label mapping G1/G2/A1/A2: ', 
+									'options' : ('G1','G2','A1','A2'), 
+									'default':'',
+									'type' : str},
+							'5' : {	'name' : 'locationMapping', 
+									'prompt' : 'Location mapping GL/GR/AL/AR/R/V: ', 
+									'options' : ('GL','GR','AL','AR','R','V'), 
+									'default':'',
+									'type' : str},
+							'6' : {	'name' : 'categoryStructure', 
+									'prompt' : 'Category Structure - 5-4 / CC: ', 
+									'options' : ('5-4','CC'), 
+									'default':'CC',
+									'type' : str},
+							'7' : {	'name' : 'order', 
+									'prompt' : 'First or second? 1/2: ', 
+									'options' : ("1","2"), 
+									'default':'1',
+									'type' : str},
+							'8' : {	'name' : 'seed', 
+									'prompt' : 'Enter seed: ', 
+									'options' : 'any', 
+									'default':100,
+									'type' : int},
+							'9' : {	'name' : 'expInitials', 
+									'prompt' : 'Experiment Initials: ', 
+									'options' : 'any', 
+									'default' : '', 
+									'type' : str}
+								}
+			
+		optionsReceived=False
+		fileOpened=False
+		while not optionsReceived or not fileOpened:
+			[optionsReceived,self.subjVariables] = enterSubjInfo('same-gekTalp-noDelay-question-HTEST',optionList) #alienRockets_noDelay_AB
+			if not optionsReceived:
+				popupError(self.subjVariables)
+			try:
+				if  os.path.isfile(self.subjVariables['subjCode']+'_test.txt'):
+					fileOpened=False
+					popupError('Error: That subject code already exists')
+				else:
+					self.outputFile = open(self.subjVariables['subjCode']+'_test.txt','w')
+					fileOpened=True
+			except:
+				pass
+			print 'options received: ',optionsReceived,self.subjVariables
+
+
 class ExpPresentation():
 	def __init__(self,experiment):
 		self.experiment = experiment
@@ -270,35 +277,40 @@ class ExpPresentation():
 		writeToFile(self.experiment.outputFile,curLine)
 
 	def cycleThroughExperimentTrials(self,whichPart):
-		self.prevTestType='none'
+		# self.prevTestType='none'
 
-		if whichPart == "practice":
-			numTrials = self.experiment.numPracticeTrials
-			numBlocks = 1
-			trialIndices = random.sample(range(1,30),self.experiment.numPracticeTrials)
-			for curPracticeTrialIndex in trialIndices:
-				curTrial = self.trialListMatrix.getFutureTrial(curPracticeTrialIndex)
-				self.presentExperimentTrial(0,whichPart,curTrial)
-		elif whichPart == "real":
-				curTrialIndex = 0
-				prevBlock = 'none'
-				for curTrial in self.trialListMatrix:
-					#take break every X trials (for blocks that have lots of trials; otherwise can set it to break every X blocks)
-					if curTrialIndex>0 and curTrialIndex % self.experiment.takeBreakEveryXTrials == 0:
-						showText(self.experiment.win,self.experiment.takeBreak,color=(0,0,0),inputDevice=self.experiment.inputDevice) #take a break
+		# if whichPart == "practice":
+		# 	numTrials = self.experiment.numPracticeTrials
+		# 	numBlocks = 1
+		# 	trialIndices = random.sample(range(1,30),self.experiment.numPracticeTrials)
+		# 	for curPracticeTrialIndex in trialIndices:
+		# 		curTrial = self.trialListMatrix.getFutureTrial(curPracticeTrialIndex)
+		# 		self.presentExperimentTrial(0,whichPart,curTrial)
+		# elif whichPart == "real":
+		# 		curTrialIndex = 0
+		# 		prevBlock = 'none'
+		# 		for curTrial in self.trialListMatrix:
+		# 			#take break every X trials (for blocks that have lots of trials; otherwise can set it to break every X blocks)
+		# 			if curTrialIndex>0 and curTrialIndex % self.experiment.takeBreakEveryXTrials == 0:
+		# 				showText(self.experiment.win,self.experiment.takeBreak,color=(0,0,0),inputDevice=self.experiment.inputDevice) #take a break
 					
-					"""This is what's shown on every trial"""
-					self.presentExperimentTrial(curTrialIndex,whichPart,curTrial)
+		# 			"""This is what's shown on every trial"""
+		# 			self.presentExperimentTrial(curTrialIndex,whichPart,curTrial)
 
-					curTrialIndex+=1
+		# 			curTrialIndex+=1
+		pass
 				
-currentExp = Exp()
-currentPresentation = ExpPresentation(currentExp)
-currentPresentation.initializeExperiment()
-showText(currentExp.win,currentExp.instructions,color=(-1,-1,-1),inputDevice=currentExp.inputDevice)
-showText(currentExp.win,currentExp.practiceTrials,color=(-1,-1,-1),inputDevice=currentExp.inputDevice)
-currentPresentation.cycleThroughExperimentTrials("practice")
-showText(currentExp.win,currentExp.realTrials,color=(0,0,0),inputDevice=currentExp.inputDevice)
-currentPresentation.cycleThroughExperimentTrials("real")
-showText(currentExp.win,currentExp.finalText,color=(0,0,0),inputDevice=currentExp.inputDevice) #thank the subject
-web.open(currentExp.surveyURL)
+if __name__ == "__main__":
+	currentExp = Exp()
+	currentPresentation = ExpPresentation(currentExp)
+	currentPresentation.initializeExperiment()
+	showText(currentExp.win,currentExp.instructions,color=(-1,-1,-1),inputDevice=currentExp.inputDevice)
+	showText(currentExp.win,currentExp.practiceTrials,color=(-1,-1,-1),inputDevice=currentExp.inputDevice)
+	currentPresentation.cycleThroughExperimentTrials("practice")
+	showText(currentExp.win,currentExp.realTrials,color=(0,0,0),inputDevice=currentExp.inputDevice)
+	currentPresentation.cycleThroughExperimentTrials("real")
+	showText(currentExp.win,currentExp.finalText,color=(0,0,0),inputDevice=currentExp.inputDevice) #thank the subject
+	core.quit()
+	web.open(currentExp.surveyURL)
+
+
