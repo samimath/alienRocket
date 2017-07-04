@@ -54,8 +54,8 @@ class Exp:
 			self.validResponsesVerification = {'z':'Yes','slash':'No'}
 			responseInfo = " You will use the keyboard keys to respond (z for left and / for right. Place your right index finger on the / key and your left middle finger on the z key."
 				
-		self.win = visual.Window(fullscr=True, pos=[0,0],color="white", allowGUI=False, monitor='testingRoom',units='pix',winType='pyglet')
-		#self.win = visual.Window([1280,1024], pos=[0,0],color="white", allowGUI=False, monitor='officeMonitor',units='pix',winType='pyglet')
+		#self.win = visual.Window(fullscr=True, pos=[0,0],color="white", allowGUI=False, monitor='testingRoom',units='pix',winType='pyglet')
+		self.win = visual.Window([1280,1024], pos=[0,0],color="white", allowGUI=False, monitor='officeMonitor',units='pix',winType='pyglet')
 		
 		
 		self.surveyURL = 'https://uwmadison.qualtrics.com/SE/?' + \
@@ -277,28 +277,28 @@ class ExpPresentation():
 		writeToFile(self.experiment.outputFile,curLine)
 
 	def cycleThroughExperimentTrials(self,whichPart):
-		# self.prevTestType='none'
+		self.prevTestType='none'
 
-		# if whichPart == "practice":
-		# 	numTrials = self.experiment.numPracticeTrials
-		# 	numBlocks = 1
-		# 	trialIndices = random.sample(range(1,30),self.experiment.numPracticeTrials)
-		# 	for curPracticeTrialIndex in trialIndices:
-		# 		curTrial = self.trialListMatrix.getFutureTrial(curPracticeTrialIndex)
-		# 		self.presentExperimentTrial(0,whichPart,curTrial)
-		# elif whichPart == "real":
-		# 		curTrialIndex = 0
-		# 		prevBlock = 'none'
-		# 		for curTrial in self.trialListMatrix:
-		# 			#take break every X trials (for blocks that have lots of trials; otherwise can set it to break every X blocks)
-		# 			if curTrialIndex>0 and curTrialIndex % self.experiment.takeBreakEveryXTrials == 0:
-		# 				showText(self.experiment.win,self.experiment.takeBreak,color=(0,0,0),inputDevice=self.experiment.inputDevice) #take a break
+		if whichPart == "practice":
+			numTrials = self.experiment.numPracticeTrials
+			numBlocks = 1
+			trialIndices = random.sample(range(1,30),self.experiment.numPracticeTrials)
+			for curPracticeTrialIndex in trialIndices:
+				curTrial = self.trialListMatrix.getFutureTrial(curPracticeTrialIndex)
+				self.presentExperimentTrial(0,whichPart,curTrial)
+		elif whichPart == "real":
+				curTrialIndex = 0
+				prevBlock = 'none'
+				for curTrial in self.trialListMatrix:
+					#take break every X trials (for blocks that have lots of trials; otherwise can set it to break every X blocks)
+					if curTrialIndex>0 and curTrialIndex % self.experiment.takeBreakEveryXTrials == 0:
+						showText(self.experiment.win,self.experiment.takeBreak,color=(0,0,0),inputDevice=self.experiment.inputDevice) #take a break
 					
-		# 			"""This is what's shown on every trial"""
-		# 			self.presentExperimentTrial(curTrialIndex,whichPart,curTrial)
+					"""This is what's shown on every trial"""
+					self.presentExperimentTrial(curTrialIndex,whichPart,curTrial)
 
-		# 			curTrialIndex+=1
-		pass
+					curTrialIndex+=1
+
 				
 if __name__ == "__main__":
 	currentExp = Exp()
