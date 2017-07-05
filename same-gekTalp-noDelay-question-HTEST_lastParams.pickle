@@ -9,7 +9,7 @@ VGL
 p5
 sS'subjCode'
 p6
-Varocket_test7
+Varocket_test81
 p7
 sS'gender'
 p8
@@ -20,11 +20,11 @@ VG1
 p10
 sS'expName'
 p11
-S'same-gekTalp-noDelay-question-HTEST'
+Vsame-gekTalp-noDelay-question-HTEST
 p12
 sS'dateStr'
 p13
-V2017_Jul_03_2300
+V2017_Jul_04_1931
 p14
 sS'responseDevice'
 p15
@@ -35,9 +35,9 @@ p17
 I100
 sS'order'
 p18
-S'1'
+V1
 sS'categoryStructure'
 p19
-S'CC'
+VCC
 p20
 s.
