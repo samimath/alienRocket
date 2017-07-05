@@ -290,7 +290,7 @@ class Exp:
 			labelReversalMap = {'gek':'talp','talp':'gek'}
 			sideToLabelMap = {'Yes':curTrial['labelPrompt'],'No':labelReversalMap[curTrial['labelPrompt']]}
 		else:
-			labelLeft =	newText(self.win, text=curTrial['labelLeft'], pos=self.locations['left'], color="black", scale=2.0)
+			labelLeft = newText(self.win, text=curTrial['labelLeft'], pos=self.locations['left'], color="black", scale=2.0)
 			labelRight = newText(self.win, text=curTrial['labelRight'], pos=self.locations['right'], color="black", scale=2.0)
 			sideToLabelMap = {'left':curTrial['labelLeft'],'right':curTrial['labelRight']}
 
@@ -316,7 +316,7 @@ class Exp:
 		resp = self.validResponses[resp]		
 
 		if curTrial['trialType']=="transfer":
-			isRight='*'
+			isRight = '*'
 		else:
 			isRight = int(resp==curTrial['correctResp'])
 			if isRight:
